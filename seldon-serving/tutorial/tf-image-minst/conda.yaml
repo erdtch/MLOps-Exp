@@ -1,0 +1,11 @@
+python: "3.9.12"
+
+build_dependencies:
+  - pip
+
+dependencies:
+  - matplotlib
+  - pip:
+      - tensorflow
+      - mlflow
+      - boto3

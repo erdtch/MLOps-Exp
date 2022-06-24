@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  dev:
+    container_name: "our-darknet-dev"
+
+    build: .
+    restart: always
+
+    environment:
+      # MLFLOW - S3 Tracking Server
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=sample_key
+      - MLFLOW_S3_ENDPOINT_URL=http://192.168.1.32:9000
+      - MLFLOW_TRACKING_URI=http://192.168.1.32:5000
+
+    # Expose jupyter notebook port to the host
+    ports:
+      - "8889:8888"
+
+    # Mount development library into docker container
+    volumes:
+      - ./:/home/tf/
+
+    # Speicify GPU device to use
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["1"]
+              capabilities: [gpu]
